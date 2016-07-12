@@ -1,0 +1,21 @@
+{
+  "name": "princess-donut",
+  "version": "1.0.0",
+  "description": "webgl experiment",
+  "main": "Gruntfile.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mlauren/PrincessDonut.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mlauren/PrincessDonut/issues"
+  },
+  "homepage": "https://github.com/mlauren/PrincessDonut#readme"
+}
