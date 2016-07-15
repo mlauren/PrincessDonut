@@ -4,13 +4,14 @@
 var express = require('express');
 var app = express();
 
+app.set('view engine', 'ejs');
+
 // configuration ===========================================
 
 // set our port
 var port = process.env.PORT || 3030; 
 
 // Setup server
-var app = express();
 var server = require('http').createServer(app);           
 
 // routes ==================================================

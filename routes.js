@@ -11,17 +11,15 @@ module.exports = function(app) {
   // handle things like api calls
   app.use('/api/tweets', require('./api/tweets'));
 
-  app.use('/auth', require('./auth').default);
-
-
   // frontend routes =========================================================
-  app.use('/app/js', express.static(__dirname + "/app/js"));
-  app.use('/app/work', express.static(__dirname + "/app/work"));
-  app.use('/app/pages', express.static(__dirname + "/app/pages"));
-  app.use('/app/img', express.static(__dirname + "/app/img"));
-  app.use('/app/zines', express.static(__dirname + "/app/zines"));
+  app.use('/app', express.static(__dirname + '/app'));
 
-  app.all('/*', function(req, res, next) {
-    res.sendFile('/app/index.html', { root: __dirname });
+  // app.route('/:url(api|auth|components|app|bower_components|assets)/*')
+   // .get(errors[404]);
+
+  // All other routes should redirect to the index.html
+  app.route('/*')
+  .get((req, res) => {
+    res.sendFile(path.resolve(path.normalize(__dirname + '/app/') + 'index.html'));
   });
 };

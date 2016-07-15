@@ -56,6 +56,11 @@
 	{
 		// create a message to display inside the view
 		$scope.message = 'I look geeewwd';
+
+
+		$http.get('api/tweets').success(function(data) {
+			console.log(data);
+		});
 	});
 
 	poopoo.controller('aboutController', function($scope)
