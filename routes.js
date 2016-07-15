@@ -9,7 +9,10 @@ module.exports = function(app) {
 
   // server routes ===========================================================
   // handle things like api calls
-  // authentication routes
+  app.use('/api/tweets', require('./api/tweets'));
+
+  app.use('/auth', require('./auth').default);
+
 
   // frontend routes =========================================================
   app.use('/app/js', express.static(__dirname + "/app/js"));
@@ -17,7 +20,6 @@ module.exports = function(app) {
   app.use('/app/pages', express.static(__dirname + "/app/pages"));
   app.use('/app/img', express.static(__dirname + "/app/img"));
   app.use('/app/zines', express.static(__dirname + "/app/zines"));
-
 
   app.all('/*', function(req, res, next) {
     res.sendFile('/app/index.html', { root: __dirname });
