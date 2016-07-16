@@ -32,54 +32,42 @@
 			controller 	: 'individualController'
 		});
 
-    $locationProvider.html5Mode(true);
-    $locationProvider.hashPrefix('!');
-	});
-
-	poopoo.controller('menuController', function($scope, $http, $routeParams)
-	{
-        $http.get('work/work.json')
-        .success(function(data) {
-            $scope.work=data;
-            console.log(data);
-        })
-        .error(function(data,status,error,config){
-            console.log(data);
-            $scope.contents = [{heading:"Error",description:"Could not load json   data"}];
-        });
-
-		// create a message to display inside the view
+	    $locationProvider.html5Mode(true);
+	    $locationProvider.hashPrefix('!');
 	});
 
 
-	poopoo.controller('mainController', function($scope)
+	poopoo.controller('mainController', function($scope, $http)
 	{
-		// create a message to display inside the view
-		$scope.message = 'I look geeewwd';
-
-
-		$http.get('api/tweets').success(function(data) {
+		$http.get('api/tweets/').success(function(data) {
 			console.log(data);
-		});
+		})
+		.error(function(data,status,error,config){
+        	console.log(data);
+            $scope.contents = [{heading:"Error",description:"Could not load json data"}];
+        });
 	});
 
-	poopoo.controller('aboutController', function($scope)
-	{
-		$scope.message = 'Mothafuckin about page using angular over here';
-	});
+
 
 	poopoo.controller('contactController', function($scope) {
 		$scope.message = 'this is a demo so pretty much nooope';
 	});
 
 	poopoo.controller('individualController', function($scope, $http, $routeParams) {
+		
+
 		$scope.workId = $routeParams.workId;
 
 	    $http.get('work/' + $routeParams.workId + '.json').success(function(data) {
 	      $scope.work = data;
 
 	      console.log(data);
-	    });
+	    })
+	    .error(function(data,status,error,config){
+        	console.log(data);
+            $scope.contents = [{heading:"Error",description:"Could not load json data"}];
+        });
 
 	});
 
@@ -104,7 +92,7 @@
 	      query: {method:'GET', params:{workId:'work'}, isArray:true}
 	    });
 	}]);
-
+/*
   poopoo.run(['$location', function poopoorun($location) {
     debugger; // -->> here i debug the $location object to see what angular see's as URL
-  }]);
+  }]);*/

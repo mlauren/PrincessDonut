@@ -18,12 +18,12 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular-resource.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular-sanitize.min.js"></script>
-  <script src="/bower_components/ng-twitter-api/dist/ng-twitter-api.min.js"></script>
-  <script src="/bower_components/jsSHA/src/sha1.js"></script>
+  <script src="bower_components/ng-twitter-api/dist/ng-twitter-api.min.js"></script>
+  <script src="bower_components/jsSHA/src/sha1.js"></script>
   
 
 
-  <script src="/js/script.js"></script>
+  <script src="scripts/app.js"></script>
 
   <style>
     a {color:#bb8de2;}
@@ -38,6 +38,7 @@
 			<a class="navbar-brand" href="/"><i class="fa fa-moon-o"></i> M. Lauren <br><span style="font-size: 28px;">Maxwell</span></a>
 		</div>
 		<div class="clearfix"></div>
+		<!--
 		<ul class="col-md-12 items list-unstyled" ng-controller="menuController">
 			<li ng-repeat="item in (work | orderBy: 'created_at':true)">
 				<a ng-href="/works/{{ item.permalink }}" class="">
@@ -45,7 +46,7 @@
 				</a>
 			</li>
 
-		</ul>
+		</ul>-->
 		<ul class="col-md-12 items list-unstyled">
 			<li>
 				<a ng-href="/about">
