@@ -39,13 +39,14 @@
 
 	poopoo.controller('mainController', function($scope, $http)
 	{
-		$http.get('api/tweets/').success(function(data) {
+		/*$http.get('api/tweets/').success(function(data) {
 			console.log(data);
 		})
 		.error(function(data,status,error,config){
         	console.log(data);
             $scope.contents = [{heading:"Error",description:"Could not load json data"}];
-        });
+        });*/
+
 	});
 
 

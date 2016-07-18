@@ -18,6 +18,7 @@
   ],
   "dependencies": {
     "ng-twitter-api": "^0.1.5",
-    "ngCordova": "^0.1.27-alpha"
+    "ngCordova": "^0.1.27-alpha",
+    "socket.io": "^1.4.8"
   }
 }
