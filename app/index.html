@@ -1,0 +1,89 @@
+<!-- index.html -->
+<!doctype html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<base href="/" />
+
+  <!-- SCROLLS -->
+  <!-- load bootstrap and fontawesome via CDN -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="styles.css"></script>
+
+
+  <!-- SPELLS -->
+  <!-- load angular via CDN -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular-resource.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular-sanitize.min.js"></script>
+  <script src="bower_components/ng-twitter-api/dist/ng-twitter-api.min.js"></script>
+  <script src="bower_components/jsSHA/src/sha1.js"></script>
+  
+
+
+  <script src="scripts/app.js"></script>
+
+  <style>
+    a {color:#bb8de2;}
+
+  </style>
+</head>
+<body ng-app="poopoo">
+
+	<!-- HEADER AND NAVBAR -->
+	<header class="col-md-2 col-sm-4">
+		<div class="col-md-12 navbar-header">
+			<a class="navbar-brand" href="/"><i class="fa fa-moon-o"></i> M. Lauren <br><span style="font-size: 28px;">Maxwell</span></a>
+		</div>
+		<div class="clearfix"></div>
+		<!--
+		<ul class="col-md-12 items list-unstyled" ng-controller="menuController">
+			<li ng-repeat="item in (work | orderBy: 'created_at':true)">
+				<a ng-href="/works/{{ item.permalink }}" class="">
+					{{ item.title }}
+				</a>
+			</li>
+
+		</ul>-->
+		<ul class="col-md-12 items list-unstyled">
+			<li>
+				<a ng-href="/about">
+					About
+				</a>
+			</li>
+		</ul>
+		<ul class="col-md-12 items list-inline">
+			<li>
+				<a target="_blank" href="http://p00d00.tumblr.com/">
+					<i class="fa fa-tumblr-square"></i>
+				</a>
+			</li>
+			<li>
+				<a target="_blank" href="https://www.instagram.com/lur3n/">
+					<i class="fa fa-instagram"></i>
+				</a>
+			</li>
+			<li>
+				<a href="mailto:mlmxwell@gmail.com">
+					<i class="fa fa-envelope" aria-hidden="true"></i>
+				</a>
+			</li>
+		</ul>
+	</header>
+
+	<!-- MAIN CONTENT AND INJECTED VIEWS -->
+	<div id="main" class="col-md-10 col-sm-8">
+
+		<!-- angular templating -->
+		<!-- this is where content will be injected -->
+		<div ng-view></div>
+	</div>
+
+	<!-- FOOTER -->
+	<footer class="text-center">
+	</footer>
+
+</body>
+</html>
