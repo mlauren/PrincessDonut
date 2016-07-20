@@ -12,13 +12,22 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="styles.css"></script>
 
+  <style>
+    a {color:#bb8de2;}
+
+  </style>
+
+  
+</head>
+<body>
+  <div id="webgl"></div>
 
   <!-- SPELLS -->
-  <!-- load angular via CDN -->
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular-resource.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular-sanitize.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="bower_components/three.js/three.js"></script>
   <script src="bower_components/jsSHA/src/sha1.js"></script>
+  <script src="scripts/detector.js"></script>
+  <script src="scripts/trackBallControls.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script>
     var socket = io.connect('http://localhost:3030');
@@ -28,68 +37,75 @@
     });
   </script>
 
+  <script type="text/javascript">
+    $(document).on('ready', function() {
+      (function() { 
+        'use strict';
+        var webglEl = document.getElementById('webgl'); 
 
-  <script src="scripts/app.js"></script>
+        console.log(webglEl);
+        if (!Detector.webgl) {
+          Detector.addGetWebGLMessage(webglEl);
+        }
+        THREE.ImageUtils.crossOrigin = ''; 
+        var width = window.innerWidth,
+            height = window.innerHeight;
 
-  <style>
-    a {color:#bb8de2;}
+        var radius=0.45,
+            segments=32,
+            rotation=5;
 
-  </style>
-</head>
-<body ng-app="poopoo">
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(45, width / height, 0.05, 1000);
 
-  <!-- HEADER AND NAVBAR -->
-  <header class="col-md-2 col-sm-4">
-    <div class="col-md-12 navbar-header">
-      <a class="navbar-brand" href="/"><i class="fa fa-moon-o"></i> M. Lauren <br><span style="font-size: 28px;">Maxwell</span></a>
-    </div>
-    <div class="clearfix"></div>
-    <!--
-    <ul class="col-md-12 items list-unstyled" ng-controller="menuController">
-      <li ng-repeat="item in (work | orderBy: 'created_at':true)">
-        <a ng-href="/works/{{ item.permalink }}" class="">
-          {{ item.title }}
-        </a>
-      </li>
+        camera.position.z = 3;
+        camera.position.y = 2;
+        camera.position.x = 2;
 
-    </ul>-->
-    <ul class="col-md-12 items list-unstyled">
-      <li>
-        <a ng-href="/about">
-          About
-        </a>
-      </li>
-    </ul>
-    <ul class="col-md-12 items list-inline">
-      <li>
-        <a target="_blank" href="http://p00d00.tumblr.com/">
-          <i class="fa fa-tumblr-square"></i>
-        </a>
-      </li>
-      <li>
-        <a target="_blank" href="https://www.instagram.com/lur3n/">
-          <i class="fa fa-instagram"></i>
-        </a>
-      </li>
-      <li>
-        <a href="mailto:mlmxwell@gmail.com">
-          <i class="fa fa-envelope" aria-hidden="true"></i>
-        </a>
-      </li>
-    </ul>
-  </header>
+        var renderer = new THREE.WebGLRenderer();
 
-  <!-- MAIN CONTENT AND INJECTED VIEWS -->
-  <div id="main" class="col-md-10 col-sm-8">
+        renderer.setSize(width, height);
+        scene.add(new THREE.AmbientLight(0x553333));
 
-    <!-- angular templating -->
-    <!-- this is where content will be injected -->
-    <div ng-view></div>
-  </div>
+        var light = new THREE.DirectionalLight(0xffffff, .5);
 
-  <!-- FOOTER -->
-  <footer class="text-center">
-  </footer>
+        light.position.set(5, 3, 5);
+        scene.add(light);
+
+        var sphere = createSphere(radius, segments);
+
+        sphere.rotation.y = rotation;
+        scene.add(sphere);
+
+        var stars = createStars(90, 64);
+
+        scene.add(stars);
+
+        var controls=new THREE.TrackballControls(camera);
+
+        webglEl.appendChild(renderer.domElement);
+
+        render();
+
+        function render() {
+          controls.update();
+
+          sphere.rotation.y += 0.05;
+
+          requestAnimationFrame(render);
+          renderer.render(scene, camera); 
+        } 
+
+        function createSphere(radius, segments) {
+          return new THREE.Mesh(new THREE.SphereGeometry(radius, segments, segments), new THREE.MeshPhongMaterial({ map: THREE.ImageUtils.loadTexture('https://cdn.rawgit.com/bubblin/The-Solar-System/master/images/page-60/saturnmap.jpg'), bumpScale: 0.05, specular: new THREE.Color('#190909') })); 
+        }
+
+        function createStars(radius, segments) { 
+          return new THREE.Mesh(new THREE.SphereGeometry(radius, segments, segments), new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture('https://cdn.rawgit.com/bubblin/The-Solar-System/master/images/shared/galaxy_starfield.jpg'), side: THREE.BackSide })); 
+        } 
+      }());
+    });
+  </script>
 
 </body>
 </html>
