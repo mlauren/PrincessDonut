@@ -1,22 +1,8 @@
 {
-  "name": "mlauren.github.io",
+  "name": "princess-donut",
   "version": "1.0.0",
-  "description": "mlauren.github.com ==================",
-  "main": "gulpfile.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mlauren/mlauren.github.io.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mlauren/mlauren.github.io/issues"
-  },
-  "homepage": "https://github.com/mlauren/mlauren.github.io#readme",
+  "description": "webgl experiment",
+  "main": "Gruntfile.js",
   "dependencies": {
     "body-parser": "^1.15.2",
     "content-disposition": "^0.5.1",
@@ -29,5 +15,18 @@
     "socket.io": "^1.4.8",
     "twit": "^2.2.4",
     "twitter-mentions": "^3.0.0"
-  }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mlauren/PrincessDonut.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mlauren/mlauren.github.io/issues"
+  },
+  "homepage": "https://github.com/mlauren/mlauren.github.io#readme"
 }
