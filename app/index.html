@@ -47,6 +47,8 @@
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="bower_components/three.js/three.js"></script>
   <script src="bower_components/jsSHA/src/sha1.js"></script>
+  <script src="bower_components/tween.js/src/Tween.js"></script>
+  <script src="bower_components/stats.js/src/Stats.js"></script>
   <script src="scripts/detector.js"></script>
   <script src="scripts/trackBallControls.js"></script>
   <script src="/socket.io/socket.io.js"></script>
@@ -60,82 +62,77 @@
   <script type="text/javascript">
     $(document).on('ready', function() {
       (function() { 
+        var camera, controls, scene, mesh, renderer, stats, tween;
+        var userOpts  = {
+          range : 800,
+          duration : 2500,
+          delay : 200,
+          easing : 'Elastic.EaseInOut'
+        };
 
-        var webglEl = document.getElementById('webgl'); 
-
-        console.log(webglEl);
-        if (!Detector.webgl) {
-          Detector.addGetWebGLMessage(webglEl);
-        }
-        THREE.ImageUtils.crossOrigin = ''; 
-        var width = window.innerWidth,
-            height = window.innerHeight;
-
-        var radius=0.45,
-            segments=32,
-            rotation=5;
-
-        var scene = new THREE.Scene();
-        var camera = new THREE.PerspectiveCamera(45, width / height, 0.05, 1000);
-
-        camera.position.z = 15;
-        camera.position.y = 2;
-        camera.position.x = 2;
-
-        var renderer = new THREE.WebGLRenderer();
-
-        renderer.setSize(width, height);
-        scene.add(new THREE.AmbientLight(0x553333));
-
-        var light = new THREE.DirectionalLight(0xffffff, .5);
-
-        light.position.set(2, 3, 9);
-        scene.add(light);
-
-        var model = loadModel('models/paraqueet.json');
-
-        // var sphere = createSphere(radius, segments);
-        // sphere.rotation.y = rotation;
-        // scene.add(model);
-
-        var stars = createStars(90, 64);
-
-        scene.add(stars);
-
-        var controls = new THREE.TrackballControls(camera);
-
-        webglEl.appendChild(renderer.domElement);
-
+        init();
         render();
 
-        function render() {
-          controls.update();
+        function setupTween()
+        {
 
-          // sphere.rotation.y += 0.05;
-
-          requestAnimationFrame(render);
-          renderer.render(scene, camera); 
-        } 
-
-        function createSphere(radius, segments) {
-          return new THREE.Mesh(new THREE.SphereGeometry(radius, segments, segments), new THREE.MeshPhongMaterial({ map: THREE.ImageUtils.loadTexture('https://cdn.rawgit.com/bubblin/The-Solar-System/master/images/page-60/saturnmap.jpg'), bumpScale: 0.05, specular: new THREE.Color('#190909') })); 
+          var position = { x : 0, y: 300 };
+          var target = { x : 400, y: 50 };
+          tween = new TWEEN.Tween(position).to(target, 20000);
+          tween.onUpdate(function(){
+            mesh.position.x = position.x;
+            mesh.position.y = position.y;
+          });
+          tween.start();
         }
 
-        function loadModel(modelsrc) {
-          var loader = new THREE.JSONLoader(); // init the loader util
-          var bumpMapTexture = THREE.ImageUtils.loadTexture( 'textures/crystal11.jpg' );
-          // init loading
-          loader.load(modelsrc, function (geometry) {
-            var loader = new THREE.JSONLoader(); // init the loader util
 
+        function init() {
+          var webglEl = document.getElementById('webgl'); 
+
+          if (!Detector.webgl) {
+            Detector.addGetWebGLMessage(webglEl);
+          }
+
+          THREE.ImageUtils.crossOrigin = '';
+
+          var width = window.innerWidth,
+              height = window.innerHeight;
+
+          var radius=0.45,
+              segments=32,
+              rotation=5;
+
+          scene = new THREE.Scene();
+
+
+          camera = new THREE.PerspectiveCamera(45, width / height, 0.05, 1000);
+
+          camera.position.z = 15;
+          camera.position.y = 2;
+          camera.position.x = 2;
+
+          renderer = new THREE.WebGLRenderer();
+
+          renderer.setSize(width, height);
+          scene.add(new THREE.AmbientLight(0x553333));
+
+          var light = new THREE.DirectionalLight(0xffffff, .5);
+
+          light.position.set(2, 3, 9);
+          scene.add(light);
+
+          var loader = new THREE.JSONLoader(); // init the loader util
+          // init loading
+          loader.load('models/paraqueet.json', function (geometry) {
             // var mapImage = imgSrc;
             
-            bumpMapTexture.wrapS = bumpMapTexture.wrapT = THREE.RepeatWrapping;
-            bumpMapTexture.repeat.set( 5, 5 );
-            var materialTexture = new THREE.MeshPhongMaterial( { fog: false, bumpMap: bumpMapTexture, bumpScale: 0.3 } );
+            // bumpMapTexture.wrapS = bumpMapTexture.wrapT = THREE.RepeatWrapping;
+            // bumpMapTexture.repeat.set( 5, 5 );
+            var materialTexture = new THREE.MeshPhongMaterial( { fog: false } );
 
             // create a mesh with models geometry and material
-            var mesh = new THREE.Mesh(
+            mesh = new THREE.Mesh(
               geometry,
               materialTexture
             );
@@ -149,8 +146,62 @@
 
             // mesh.rotateX( Math.PI / 2 );
             scene.add(mesh);
+
           });
 
+          console.log(mesh);
+          setupTween();
+
+
+          console.log(scene);
+
+          var simon = scene.getObjectByName( "simon" );
+
+          var stars = createStars(90, 64);
+
+          scene.add(stars);
+
+          controls = new THREE.TrackballControls(camera);
+
+          webglEl.appendChild(renderer.domElement);
+
+          // tween.start();
+          // init the Stats and append it to the Dom - performance vuemeter
+          stats = new Stats();
+          stats.domElement.style.position = 'absolute';
+          stats.domElement.style.top = '0px';
+          container.appendChild( stats.domElement );
+        }
+
+        function render() {
+          controls.update();
+
+          // sphere.rotation.y += 0.05;
+
+          requestAnimationFrame(render);
+          renderer.render(scene, camera); 
+          
+          stats.update();
+          // update the tweens from TWEEN library
+          TWEEN.update();
+
+        } 
+
+        // ## Animate and Display the Scene
+        function animate() {
+          // render the 3D scene
+          render();
+          // relaunch the 'timer' 
+          requestAnimationFrame( animate );
+          // update the stats
+          stats.update();
+          // update the tweens from TWEEN library
+          TWEEN.update();
+        }
+
+
+        function createSphere(radius, segments) {
+          return new THREE.Mesh(new THREE.SphereGeometry(radius, segments, segments), new THREE.MeshPhongMaterial({ map: THREE.ImageUtils.loadTexture('https://cdn.rawgit.com/bubblin/The-Solar-System/master/images/page-60/saturnmap.jpg'), bumpScale: 0.05, specular: new THREE.Color('#190909') })); 
         }
 
         function createStars(radius, segments) { 
