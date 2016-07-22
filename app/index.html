@@ -14,14 +14,35 @@
 
   <style>
     a {color:#bb8de2;}
+          body {
+        color: #888888;
+        font-family:Monospace;
+        font-size:13px;
 
+        background-color: #000;
+        margin: 0px;
+        overflow: hidden;
+      }
+          #info {
+        position: absolute;
+        top: 0px;
+        width: 200px;
+        left: calc(50% - 100px);
+        text-align: center;
+      }
+      #webgl {
+        margin-top:20px;
+      }
   </style>
 
   
 </head>
 <body>
+  <div id="container"><div id="info">
+      Info
+    </div></div>
   <div id="webgl"></div>
-
+  
   <!-- SPELLS -->
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="bower_components/three.js/three.js"></script>
@@ -39,7 +60,7 @@
   <script type="text/javascript">
     $(document).on('ready', function() {
       (function() { 
-        'use strict';
+
         var webglEl = document.getElementById('webgl'); 
 
         console.log(webglEl);
@@ -57,7 +78,7 @@
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(45, width / height, 0.05, 1000);
 
-        camera.position.z = 3;
+        camera.position.z = 15;
         camera.position.y = 2;
         camera.position.x = 2;
 
@@ -68,19 +89,20 @@
 
         var light = new THREE.DirectionalLight(0xffffff, .5);
 
-        light.position.set(5, 3, 5);
+        light.position.set(2, 3, 9);
         scene.add(light);
 
-        var sphere = createSphere(radius, segments);
+        var model = loadModel('models/paraqueet.json');
 
-        sphere.rotation.y = rotation;
-        scene.add(sphere);
+        // var sphere = createSphere(radius, segments);
+        // sphere.rotation.y = rotation;
+        // scene.add(model);
 
         var stars = createStars(90, 64);
 
         scene.add(stars);
 
-        var controls=new THREE.TrackballControls(camera);
+        var controls = new THREE.TrackballControls(camera);
 
         webglEl.appendChild(renderer.domElement);
 
@@ -89,7 +111,7 @@
         function render() {
           controls.update();
 
-          sphere.rotation.y += 0.05;
+          // sphere.rotation.y += 0.05;
 
           requestAnimationFrame(render);
           renderer.render(scene, camera); 
@@ -97,6 +119,38 @@
 
         function createSphere(radius, segments) {
           return new THREE.Mesh(new THREE.SphereGeometry(radius, segments, segments), new THREE.MeshPhongMaterial({ map: THREE.ImageUtils.loadTexture('https://cdn.rawgit.com/bubblin/The-Solar-System/master/images/page-60/saturnmap.jpg'), bumpScale: 0.05, specular: new THREE.Color('#190909') })); 
+        }
+
+        function loadModel(modelsrc) {
+          var loader = new THREE.JSONLoader(); // init the loader util
+          var bumpMapTexture = THREE.ImageUtils.loadTexture( 'textures/crystal11.jpg' );
+          // init loading
+          loader.load(modelsrc, function (geometry) {
+            var loader = new THREE.JSONLoader(); // init the loader util
+
+            // var mapImage = imgSrc;
+            
+            bumpMapTexture.wrapS = bumpMapTexture.wrapT = THREE.RepeatWrapping;
+            bumpMapTexture.repeat.set( 5, 5 );
+            var materialTexture = new THREE.MeshPhongMaterial( { fog: false, bumpMap: bumpMapTexture, bumpScale: 0.3 } );
+
+            // create a mesh with models geometry and material
+            var mesh = new THREE.Mesh(
+              geometry,
+              materialTexture
+            );
+
+            mesh.position.x = 0;
+            mesh.position.y = 0;
+            mesh.position.z = 0;
+            
+            mesh.name = "simon";
+            mesh.scale.set( 1, 1, 1 );
+
+            // mesh.rotateX( Math.PI / 2 );
+            scene.add(mesh);
+          });
+
         }
 
         function createStars(radius, segments) { 
