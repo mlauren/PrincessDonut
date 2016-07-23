@@ -10,7 +10,7 @@ app.set('view engine', 'ejs');
 // configuration ===========================================
 
 // set our port
-var port = process.env.PORT || 3030; 
+var port = process.env.PORT || 3000;
 
 // Setup server
 var server = require('http').Server(app);
@@ -43,7 +43,7 @@ io.on('connection', function (socket) {
 
   stream.on('tweet', function(tweet) {
     console.log(tweet);
-    socket.emit('news', { message: tweet.text });
+    socket.emit('tweet', { message: tweet.text });
   });
 
   
