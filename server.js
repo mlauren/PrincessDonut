@@ -13,7 +13,7 @@ var io = require('socket.io')(server, {'multiplex': false});
 // configuration ===========================================
 
 // set our port
-var port = process.env.PORT || 3030;
+var port = process.env.PORT || 3001;
 
 // Start server
 server.listen(port, function () {
@@ -28,7 +28,7 @@ app.get('/', function (req, res) {
 });
 
 // Socket ==================================================
-io.sockets.on('connection', function (socket) {
+io.on('connection', function (socket) {
   console.log(socket);
   var twit = new Twit({
     consumer_key:         '6U3ASBeodwSY8OgrNg4diORnJ',
@@ -42,11 +42,11 @@ io.sockets.on('connection', function (socket) {
   stream.on('tweet', function(tweet) {
     console.log(tweet);
     if (tweet.entities.media) {
-      socket.emit('tweetmedia', { message: tweet.entities.media[0] });
+      socket.broadcast.emit('tweetmedia', { message: tweet.entities.media[0] });
       console.log(tweet.entities.media[0]);
     }
 
-    socket.emit('tweet', { message: tweet.text });
+    socket.broadcast.emit('tweet', { message: tweet.text });
   });
 
   
