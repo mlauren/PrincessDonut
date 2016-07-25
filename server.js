@@ -15,10 +15,6 @@ var io = require('socket.io')(server, {'multiplex': false});
 // set our port
 var port = process.env.PORT || 3001;
 
-// Start server
-server.listen(port, function () {
-  console.log('Express server listening on %d', port);
-});
 
 // routes ==================================================
 app.use('/', express.static('app'));
@@ -26,6 +22,8 @@ app.use('/', express.static('app'));
 app.get('/', function (req, res) {
   res.sendfile(__dirname + 'app/index.html');
 });
+
+var tweetText;
 
 // Socket ==================================================
 io.on('connection', function (socket) {
@@ -42,11 +40,18 @@ io.on('connection', function (socket) {
   stream.on('tweet', function(tweet) {
     console.log(tweet);
     if (tweet.entities.media) {
-      socket.broadcast.emit('tweetmedia', { message: tweet.entities.media[0] });
+      socket.emit('tweetmedia', { message: tweet.entities.media[0] });
       console.log(tweet.entities.media[0]);
+
+      tweetText = tweet.text.replace(tweet.entities.media[0].url, '');
+      console.log(tweetText);
+    }
+    else {
+      tweetText = tweet.text;
     }
 
-    socket.broadcast.emit('tweet', { message: tweet.text });
+
+    socket.emit('tweet', { message: tweetText });
   });
 
   
@@ -58,6 +63,11 @@ io.on('connection', function (socket) {
     console.log(disconnectMessage);
   });
 });
+// Start server
+server.listen(port, function () {
+  console.log('Express server listening on %d', port);
+});
+
 
 // expose app
 exports = module.exports = app;
