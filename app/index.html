@@ -57,13 +57,12 @@
 
   </script>
   <script type="text/javascript">
-    var socket = io();
 
-    socket = socket.connect('http://localhost:3001/');
+    var socket = io.connect('http://localhost:3001/',{reconnect: true});
     console.log(socket);
     $(document).on('ready', function() {
       (function() { 
-        
+
         var camera, controls, scene, mesh, renderer, stats, tween, font = undefined, textGeo, textMesh1;
         /* Set up initial text vars */
         var text = "Tweet @SimonHi",
@@ -71,6 +70,11 @@
             size = 1,
             hover = 3,
             curveSegments = 5;
+
+        socket.on('connect', function () {
+          console.log('connect');
+          
+        });
 
         init();
         render();
