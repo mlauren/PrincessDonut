@@ -14,30 +14,58 @@
 
   <style>
     a {color:#bb8de2;}
-          body {
-        color: #888888;
-        font-family:Monospace;
-        font-size:13px;
+    body {
+      color: #888888;
+      font-family:Monospace;
+      font-size:13px;
 
-        background-color: #000;
-        margin: 0px;
-        overflow: hidden;
+      background-color: #000;
+      margin: 0px;
+      overflow: hidden;
+    }
+    #info {
+      position: absolute;
+      top: 0px;
+      width: 200px;
+      left: calc(50% - 100px);
+      text-align: center;
+    }
+    #webgl {
+      margin-top:20px;
+    }
+    .loading {
+      font-size: 16px;
+    }
+
+    .loading:after {
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: bottom;
+      -webkit-animation: ellipsis steps(4,end) 900ms infinite;
+      animation: ellipsis steps(4,end) 900ms infinite;
+      content: "\2026"; /* ascii code for the ellipsis character */
+      width: 0px;
+    }
+
+    @keyframes ellipsis {
+      to {
+        width: 1.25em;
       }
-          #info {
-        position: absolute;
-        top: 0px;
-        width: 200px;
-        left: calc(50% - 100px);
-        text-align: center;
+    }
+
+    @-webkit-keyframes ellipsis {
+      to {
+        width: 1.25em;
       }
-      #webgl {
-        margin-top:20px;
-      }
+    }
   </style>
 
   
 </head>
 <body>
+  <div id="container"><div id="info">
+      <span id="loading" class="loading">Loading</span>
+    </div></div>
   <div id="webgl"></div>
   
   <!-- SPELLS -->
@@ -55,7 +83,7 @@
   </script>
   <script type="text/javascript">
 
-    var socket = io.connect('window.location.href',{reconnect: true});
+    var socket = io.connect('http://localhost:3001/',{reconnect: true});
     console.log(socket);
     $(document).on('ready', function() {
       (function() { 
@@ -74,11 +102,16 @@
             hover = 3,
             curveSegments = 5;
 
-        
-
-        
-
         function init() {
+
+          THREE.DefaultLoadingManager.onProgress = function ( item, loaded, total ) {
+              console.log( item, loaded, total );
+            if (loaded == total) {
+              var loadingDiv = document.getElementById("loading");
+              loadingDiv.style.display = "none";
+            }
+          };
+
           var webglEl = document.getElementById('webgl'); 
 
           if (!Detector.webgl) {
