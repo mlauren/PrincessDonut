@@ -150,14 +150,7 @@
           // init loading
           loader.load('models/paraqueet.json', function (geometry) {
 
-            // Set beautiful texture
-            var bumpMapTexture = THREE.ImageUtils.loadTexture( 'textures/feathers.jpg' );
-
-            // Wrap bumpmap texture
-            bumpMapTexture.wrapS = bumpMapTexture.wrapT = THREE.RepeatWrapping;
-            bumpMapTexture.repeat.set( 30, 30 );
-
-            var materialTexture = new THREE.MeshPhongMaterial( { fog: false, bumpMap: bumpMapTexture, bumpScale: 0.005} );
+            var materialTexture = new THREE.MeshPhongMaterial( { fog: false } );
 
             // Create a mesh with models geometry and material
             mesh = new THREE.Mesh(
