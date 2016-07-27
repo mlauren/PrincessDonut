@@ -63,6 +63,12 @@
     $(document).on('ready', function() {
       (function() { 
 
+        socket.on('connect', function () {
+          console.log('connect');
+          init();
+          render();
+        });
+
         var camera, controls, scene, mesh, renderer, stats, tween, font = undefined, textGeo, textMesh1;
         /* Set up initial text vars */
         var text = "Tweet @SimonHi",
@@ -71,13 +77,9 @@
             hover = 3,
             curveSegments = 5;
 
-        socket.on('connect', function () {
-          console.log('connect');
-          
-        });
+        
 
-        init();
-        render();
+        
 
         function init() {
           var webglEl = document.getElementById('webgl'); 
