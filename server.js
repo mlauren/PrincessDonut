@@ -27,6 +27,8 @@ app.get('/', function (req, res) {
   res.sendfile(__dirname + 'app/index.html');
 });
 
+var VariousResponses = ['（・⊝・）', '⋛⋋( ‘Θ’)⋌⋚', 'ㄟ( ･ө･ )ㄏ', '（´◉◞⊖◟◉｀）', '（´≝◞⊖◟≝｀)', '⋋(◍’Θ’◍)⋌', '(•ө•)♡', '(∞ ❛ั ⊝❛ั )'];
+
 var tweetText;
 
 var twit = new Twit({
@@ -38,6 +40,14 @@ var twit = new Twit({
 var stream = twit.stream('statuses/filter', { track: ['@SimonHi'] });
 stream.on('tweet', function(tweet) {
   console.log(tweet);
+
+  var replyStatus = '@' + tweet.user.screen_name + ' ' + VariousResponses[Math.floor(Math.random() * VariousResponses.length)];
+  var params = {status: replyStatus, in_reply_to_status_id: tweet.id};
+  console.log(replyStatus);
+
+  twit.post('statuses/update', params, function(err, data, response) {
+    console.log(data)
+  });
   if (tweet.entities.media) {
     io.emit('tweetmedia', { message: tweet.entities.media[0] });
     console.log(tweet.entities.media[0]);
