@@ -5,81 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <meta name="description" content="Princess Simon is here to listen to your words."/>
+  <title>Tweet @Simon</title>
+  <meta name="description" content="Princess Simon is here to listen to your words. Tweet at her to update the text above her head and her dress."/>
 
   <meta property="og:type" content="profile" />
-  <meta property="og:title" content="http://princesssimon.info/" />
-  <meta property="og:description" content="Princess Simon is here to listen to your words."/>
+  <meta property="og:title" content="Tweet @Simon" />
+  <meta property="og:description" content="Princess Simon is here to listen to your words. Tweet at her to update the text above her head and her dress."/>
   <meta property="og:image" content = "http://princesssimon.info/img/hiSimon.jpg">
   <link rel="publisher" href="http://plus.google.com/u/1/117967543269457019554/"/>
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:description" content="Princess Simon is here to listen to your words.">
+  <meta name="twitter:description" content="Princess Simon is here to listen to your words. Tweet at her to update the text above her head and her dress.">
   <meta name="twitter:image" content="http://princesssimon.info/img/hiSimon.jpg">
   <base href="/" />
 
-  <!-- SCROLLS -->
-  <!-- load bootstrap and fontawesome via CDN -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="styles.css"></script>
 
-  <style>
-    a {color:#bb8de2;}
-    body {
-      color: #888888;
-      font-family:Monospace;
-      font-size:13px;
-
-      background-color: #000;
-      margin: 0px;
-      overflow: hidden;
-    }
-    #info {
-      position: absolute;
-      top: 0px;
-      width: 300px;
-      left: calc(50% - 100px);
-      text-align: center;
-    }
-    #webgl {
-      margin-top:20px;
-    }
-    .loading {
-      font-size: 16px;
-    }
-
-    .loading:after {
-      overflow: hidden;
-      display: inline-block;
-      vertical-align: bottom;
-      -webkit-animation: ellipsis steps(4,end) 900ms infinite;
-      animation: ellipsis steps(4,end) 900ms infinite;
-      content: "\2026"; /* ascii code for the ellipsis character */
-      width: 0px;
-    }
-
-    @keyframes ellipsis {
-      to {
-        width: 1.25em;
-      }
-    }
-
-    @-webkit-keyframes ellipsis {
-      to {
-        width: 1.25em;
-      }
-    }
-  </style>
-
-  
 </head>
 <body>
-  <div id="container"><div id="info">
+  <div id="container">
+    <div id="info">
       <span id="loading" class="loading">The princess is getting ready ⋛⋋( ‘Θ’)⋌⋚</span>
-    </div></div>
+    </div>
+  </div>
   <div id="webgl"></div>
-  
-  <!-- SPELLS -->
+
+  <!-- Scripts -->
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="bower_components/three.js/three.js"></script>
   <script src="bower_components/jsSHA/src/sha1.js"></script>
@@ -89,13 +39,8 @@
   <script src="scripts/trackBallControls.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script type="text/javascript">
-    /* Set up Socket.io */
-    console.log(window.location.href);
-  </script>
-  <script type="text/javascript">
-
     var socket = io.connect('http://localhost:3001/',{reconnect: true});
-    console.log(socket);
+
     $(document).on('ready', function() {
       (function() { 
 
@@ -116,10 +61,8 @@
         function init() {
 
           THREE.DefaultLoadingManager.onProgress = function ( item, loaded, total ) {
-              console.log( item, loaded, total );
             if (loaded == total) {
-              var loadingDiv = document.getElementById("loading");
-              loadingDiv.style.display = "none";
+              $('#info').fadeOut(1000);
             }
           };
 
@@ -139,7 +82,6 @@
               rotation=5;
 
           scene = new THREE.Scene();
-
 
           camera = new THREE.PerspectiveCamera(45, width / height, 0.05, 1000);
 
@@ -178,19 +120,20 @@
 
             scene.add(mesh);
 
+            socket.emit('set', 'is_it_ok');
+
             socket.on('tweetmedia', function (data) {
-              //console.log(data.message.media_url);
 
               var simon = scene.getObjectByName( "simon", true );
 
-              // console.log(simon);
               simon.material.map = THREE.ImageUtils.loadTexture( data.message.media_url );
               simon.material.needsUpdate = true;
 
             });
           });
 
-          // console.log(scene);
+          var simonhi = scene.getObjectByName( "simon", true );
+          console.log(simonhi);
 
           /* Set up font material */
           material = new THREE.MultiMaterial( [
@@ -207,7 +150,7 @@
           /* Load the fonts */
           loadFont();
 
-          //* Take tweet and spit out text *//
+          /* Take tweet and spit out text */
           socket.on('tweet', function (data) {
             console.log(data);
             text = data.message;
@@ -215,7 +158,7 @@
 
           });
 
-          /* Load the stars */
+          /* Load  stars */
           var stars = createStars(90, 64);
 
           scene.add(stars);
@@ -224,18 +167,11 @@
 
           webglEl.appendChild(renderer.domElement);
 
-          // tween.start();
-          // init the Stats and append it to the Dom - performance vuemeter
-          stats = new Stats();
-          stats.domElement.style.position = 'absolute';
-          stats.domElement.style.top = '0px';
-          container.appendChild( stats.domElement );
         }
 
         function loadFont() {
           loader = new THREE.FontLoader();
           loader.load( 'fonts/Montserrat_Bold.typeface.js', function ( response ) {
-            // console.log(response);
             font = response;
 
             createText();
@@ -285,10 +221,8 @@
           requestAnimationFrame(render);
           renderer.render(scene, camera); 
           
-          stats.update();
           // update the tweens from TWEEN library
           TWEEN.update();
-
         }
 
         function createStars(radius, segments) { 

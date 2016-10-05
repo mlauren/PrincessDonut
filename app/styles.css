@@ -1,7 +1,53 @@
 a {
-    color: #5B45D4;
+    color: #bb8de2;
 }
 a:hover, a:focus {
     color: #4836AB;
     text-decoration: underline;
+}
+body {
+  color: #888888;
+  font-family:Monospace;
+  font-size:13px;
+
+  background-color: #000;
+  margin: 0px;
+  overflow: hidden;
+}
+#info {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background: black;
+  z-index: 10001;
+}
+#webgl {
+  margin-top:20px;
+}
+.loading {
+  font-size: 16px;
+  left: calc(50% - 200px);
+  top: 50%;
+  position: fixed;
+}
+.loading:after {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  -webkit-animation: ellipsis steps(4,end) 900ms infinite;
+  animation: ellipsis steps(4,end) 900ms infinite;
+  content: "\2026"; /* ascii code for the ellipsis character */
+  width: 0px;
+}
+@keyframes ellipsis {
+  to {
+    width: 1.25em;
+  }
+}
+@-webkit-keyframes ellipsis {
+  to {
+    width: 1.25em;
+  }
 }
