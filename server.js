@@ -26,6 +26,13 @@ app.get('*', function(req, res){
   res.status(404).sendFile(__dirname + '/app/index.html');
 });
 
+twit = new Twit({
+  consumer_key:         '6U3ASBeodwSY8OgrNg4diORnJ',
+  consumer_secret:      'wCL3DgE0QMWobbhpALWpgx83pHn0taUdmKKLfXjdALs0kbs9Ji',
+  access_token:         '752643629978488835-rrT8yDAspH4gHxTJkBT1qHS4bVSWs3M',
+  access_token_secret:  'sho2o1YkyOEMWmIARuLHMEth3yVrTRpViQ8QHCXo0Z3ms'
+});
+
 // Socket Connection
 io.on('connection', function (socket) {
   socket.on('set', function (status, callback) {
@@ -65,13 +72,6 @@ variousResponses = [
   , '(•ө•)♡'
   , '(∞ ❛ั ⊝❛ั )'
 ];
-
-twit = new Twit({
-  consumer_key:         '6U3ASBeodwSY8OgrNg4diORnJ',
-  consumer_secret:      'wCL3DgE0QMWobbhpALWpgx83pHn0taUdmKKLfXjdALs0kbs9Ji',
-  access_token:         '752643629978488835-rrT8yDAspH4gHxTJkBT1qHS4bVSWs3M',
-  access_token_secret:  'sho2o1YkyOEMWmIARuLHMEth3yVrTRpViQ8QHCXo0Z3ms'
-});
 
 stream = twit.stream('statuses/filter', { track: ['@SimonHi'] });
 stream.on('tweet', function(tweet) {
