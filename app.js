@@ -9,7 +9,7 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
 // Set our port
-var port = process.env.PORT || 3001;
+var port = process.env.PORT || 8080;
 
 // Start server
 server.listen(port, function () {
@@ -70,7 +70,6 @@ variousResponses = [
   , '（´≝◞⊖◟≝｀)'
   , '⋋(◍’Θ’◍)⋌'
   , '(•ө•)♡'
-  , '(∞ ❛ั ⊝❛ั )'
 ];
 
 stream = twit.stream('statuses/filter', { track: ['@SimonHi'] });
