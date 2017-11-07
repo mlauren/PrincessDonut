@@ -8,15 +8,16 @@ var server = require('http').createServer(app);
 // IO
 var io = require('socket.io')(server);
 
-// Set our port
-var port = process.env.PORT || 8080;
+if (module === require.main) {
+  // [START server]
+  // Start the server
+  const server = app.listen(process.env.PORT || 8081, () => {
+    const port = server.address().port;
+    console.log(`App listening on port ${port}`);
+  });
+  // [END server]
+}
 
-// Start server
-server.listen(port, function () {
-  console.log('Express server listening on %d', port);
-});
-
-// Routes
 app.use('/', express.static('app'));
 
 app.get('/', function (req, res) {
