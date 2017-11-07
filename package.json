@@ -1,32 +1,57 @@
 {
-  "name": "princess-donut",
+  "name": "princess-simon",
   "version": "1.0.0",
-  "description": "webgl experiment",
-  "main": "Gruntfile.js",
+  "description": "Princess Simon is a sentient bird who loves to be tweeted at. They love your pictures so much they wear it like a gown. Tweet @SimonHi to help them look their best and dress them up with your favorite image. JavaScript: Three.js, Twitter API, and Express server running on Node. http://princesssimon.info/",
+  "author": "Lauren Maxwell",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mlauren/PrincessDonut.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mlauren/mlauren.github.io/issues"
+  },
+  "homepage": "https://github.com/mlauren/mlauren.github.io#readme",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Lauren Maxwell",
+      "email": "mlmxwell@google.com"
+    }
+  ],
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "cloud-repo-tools": {
+    "requiresKeyFile": true,
+    "requiresProjectId": true
+  },
+  "semistandard": {
+    "globals": [
+      "after",
+      "afterEach",
+      "before",
+      "beforeEach",
+      "describe",
+      "it"
+    ]
+  },
   "dependencies": {
+    "express": "4.16.2",
+    "jquery": "^2.1.4",
+    "jribbble": "^2.0.4",
+    "mongolab-data-api": "^1.1.6",
     "body-parser": "^1.15.2",
     "content-disposition": "^0.5.1",
-    "express": "^4.14.0",
     "method-override": "^2.3.6",
     "path": "^0.12.7",
     "serve-static": "^1.11.1"
   },
   "devDependencies": {
+    "@google-cloud/nodejs-repo-tools": "2.1.0",
+    "ava": "0.23.0",
     "socket.io": "^1.4.8",
     "twit": "^2.2.4",
     "twitter-mentions": "^3.0.0"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mlauren/PrincessDonut.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mlauren/mlauren.github.io/issues"
-  },
-  "homepage": "https://github.com/mlauren/mlauren.github.io#readme"
+  }
 }
