@@ -20,7 +20,7 @@
     "ng-twitter-api": "^0.1.5",
     "ngCordova": "^0.1.27-alpha",
     "socket.io": "^1.4.8",
-    "three.js": "^0.78.0",
+    "three.js": "^0.88.0",
     "tween.js": "tweenjs/tween.js#^16.3.4",
     "stats.js": "mrdoob/stats.js"
   },

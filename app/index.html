@@ -37,8 +37,9 @@
   <script src="bower_components/three.js/three.js"></script>
   <script src="bower_components/jsSHA/src/sha1.js"></script>
   <script src="bower_components/tween.js/src/Tween.js"></script>
-  <script src="bower_components/stats.js/src/Stats.js"></script>
+  <script src="scripts/stats.min.js"></script>  
   <script src="scripts/detector.js"></script>
+  <script src="scripts/OrbitControls.js"></script>
   <script src="scripts/trackBallControls.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script type="text/javascript">
@@ -53,12 +54,12 @@
           render();
         });
 
-        var camera, controls, scene, mesh, renderer, stats, tween, font = undefined, textGeo, textMesh1;
+        var camera, controls, scene, mesh, renderer, stats, tween, font = undefined, textGeo, textMesh1, controls, orbitControls;
         /* Set up initial text vars */
         var text = "Tweet @SimonHi",
-            height = 1,
-            size = 1,
-            hover = -4,
+            fontHeight = .2,
+            size = .4,
+            hover = -1.2,
             curveSegments = 5;
 
         function init() {
@@ -95,6 +96,8 @@
           renderer = new THREE.WebGLRenderer();
 
           renderer.setSize(width, height);
+
+
           scene.add(new THREE.AmbientLight(0x502c5f));
 
           var light = new THREE.DirectionalLight(0xffffff, .5);
@@ -172,6 +175,8 @@
           scene.add(stars);
 
           controls = new THREE.TrackballControls(camera);
+          controls.maxDistance = 30;
+          controls.minDistance = 2;
 
           webglEl.appendChild(renderer.domElement);
 
@@ -200,9 +205,9 @@
           textGeo = new THREE.TextGeometry( text, {
             font: font,
             size: size,
-            height: height,
+            height: fontHeight,
             curveSegments: curveSegments,
-            extrudeMaterial: 1
+            extrudeMaterial: .1
           });
 
           textGeo.computeBoundingBox();
@@ -216,14 +221,10 @@
 
           textMesh1.position.x = centerOffset;
           textMesh1.position.y = hover;
-          textMesh1.position.z = 0;
+          textMesh1.position.z = 1.5;
 
           textMesh1.rotation.x = 0;
           textMesh1.rotation.y = Math.PI * 2;
-
-          console.log(textMesh1);
-          console.log(textMesh1);
-
 
           group.add( textMesh1 );
 
