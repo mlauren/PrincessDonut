@@ -3,10 +3,7 @@
   "version": "1.0.0",
   "description": "Princess Simon is a sentient bird who loves to be tweeted at. They love your pictures so much they wear it like a gown. Tweet @SimonHi to help them look their best and dress them up with your favorite image. JavaScript: Three.js, Twitter API, and Express server running on Node. http://princesssimon.info/",
   "author": "Lauren Maxwell",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mlauren/PrincessSimon.git"
-  },
+  "repository": "https://github.com/mlauren/PrincessSimon",
   "bugs": {
     "url": "https://github.com/mlauren/PrincessSimon/issues"
   },
