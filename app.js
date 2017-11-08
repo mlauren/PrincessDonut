@@ -26,7 +26,7 @@ twit = new Twit({
 io.on('connection', function (socket) {
   socket.on('set', function (status, callback) {
     twit.get('statuses/mentions_timeline', { count: 1 }, function(err, tweet, response) {
-
+      console.log(tweet[0]);
       if (tweet[0]) {
         if (tweet[0].entities.media) {
           io.emit('tweetmedia', { message: tweet[0].entities.media[0] });

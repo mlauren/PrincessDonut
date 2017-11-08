@@ -101,14 +101,6 @@
           var light = new THREE.DirectionalLight(0xffffff, .5);
           light.position.set(2, 3, 9);
           scene.add(light);
-          /*
-          spotLight = new THREE.SpotLight( 0x502c5f, 1 );
-          spotLight.position.set(0,10,60);
-          spotLight.angle = Math.PI / 4;
-          spotLight.penumbra = 0;
-          spotLight.decay = 1;
-          spotLight.distance = 200;
-          scene.add(spotLight);*/
 
           var loader = new THREE.JSONLoader(); // init the loader util
           
@@ -138,7 +130,7 @@
 
               var simon = scene.getObjectByName( "simon", true );
 
-              simon.material.map = THREE.ImageUtils.loadTexture( data.message.media_url );
+              simon.material.map = THREE.ImageUtils.loadTexture( data.message.media_url_https );
               simon.material.needsUpdate = true;
 
             });
