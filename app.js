@@ -33,12 +33,12 @@ io.on('connection', function (socket) {
         if (tweet[0].entities.media) {
           io.emit('tweetmedia', { message: tweet[0].entities.media[0] });
 
-          tweetText = tweet[0].text.replace(tweet[0].entities.media[0].url, '');
+          tweetText = tweet[0].text.replace(tweet[0].entities.media[0].url, '').replace('@SimonHi', '');
         }
         else {
-          tweetText = tweet[0].text;
+          tweetText = tweet[0].text.replace('@SimonHi', '');
         }
-        io.emit('tweet', { message: tweetText });
+        io.emit('tweet', { message: '@' + tweet[0].user.screen_name + ' says: ' + tweetText });
       }
     });
   });
