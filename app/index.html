@@ -6,15 +6,15 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>Tweet @Simon</title>
-  <meta name="description" content="Princess Simon is here to listen to your words. Tweet at her to update the text above her head and her dress."/>
+  <meta name="description" content="Princess Simon is a sentient bird who loves to be tweeted at. They love your pictures so much they wear it like a gown. Tweet @SimonHi to help them look their best and dress them up with your favorite image. JavaScript: Three.js, Twitter API, and Express server running on Node."/>
 
   <meta property="og:type" content="profile" />
   <meta property="og:title" content="Tweet @Simon" />
-  <meta property="og:description" content="Princess Simon is here to listen to your words. Tweet at her to update the text above her head and her dress."/>
+  <meta property="og:description" content="Princess Simon is a sentient bird who loves to be tweeted at. They love your pictures so much they wear it like a gown. Tweet @SimonHi to help them look their best and dress them up with your favorite image. JavaScript: Three.js, Twitter API, and Express server running on Node."/>
   <meta property="og:image" content = "http://princesssimon.info/img/hiSimon.jpg">
   <link rel="publisher" href="http://plus.google.com/u/1/117967543269457019554/"/>
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:description" content="Princess Simon is here to listen to your words. Tweet at her to update the text above her head and her dress.">
+  <meta name="twitter:description" content="Princess Simon is a sentient bird who loves to be tweeted at. They love your pictures so much they wear it like a gown. Tweet @SimonHi to help them look their best and dress them up with your favorite image. JavaScript: Three.js, Twitter API, and Express server running on Node.">
   <meta name="twitter:image" content="http://princesssimon.info/img/hiSimon.jpg">
   <base href="/" />
 
@@ -27,7 +27,7 @@
       <span><marquee>Tweet images and text to <a target="blank" href="https://twitter.com/SimonHi">@SimonHi</a>!</marquee></span>
     </div>
     <div id="info">
-      <span id="loading" class="loading">The princess is getting ready ⋛⋋( ‘Θ’)⋌⋚</span>
+      <span id="loading" class="loading">Princess Simon is a sentient bird who loves to be tweeted at. They love your pictures so much they wear it like a gown. Tweet @SimonHi to help them look their best and dress them up with your favorite image.<br><br> The princess is getting ready ⋛⋋( ‘Θ’)⋌⋚</span>
     </div>
   </div>
   <div id="webgl"></div>
@@ -42,7 +42,7 @@
   <script src="scripts/trackBallControls.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script type="text/javascript">
-    var socket = io.connect('http://localhost:3001/',{reconnect: true});
+    var socket = io.connect('http://localhost:8081/',{reconnect: true});
 
     $(document).on('ready', function() {
       (function() { 
@@ -58,7 +58,7 @@
         var text = "Tweet @SimonHi",
             height = 1,
             size = 1,
-            hover = 3,
+            hover = -4,
             curveSegments = 5;
 
         function init() {
@@ -98,9 +98,16 @@
           scene.add(new THREE.AmbientLight(0x502c5f));
 
           var light = new THREE.DirectionalLight(0xffffff, .5);
-
           light.position.set(2, 3, 9);
           scene.add(light);
+
+          spotLight = new THREE.SpotLight( 0x502c5f, 1 );
+          spotLight.position.set(0,10,60);
+          spotLight.angle = Math.PI / 4;
+          spotLight.penumbra = 0;
+          spotLight.decay = 1;
+          spotLight.distance = 200;
+          scene.add(spotLight);
 
           var loader = new THREE.JSONLoader(); // init the loader util
           // init loading
@@ -136,7 +143,6 @@
           });
 
           var simonhi = scene.getObjectByName( "simon", true );
-          console.log(simonhi);
 
           /* Set up font material */
           material = new THREE.MultiMaterial( [
@@ -158,7 +164,6 @@
             console.log(data);
             text = data.message;
             loadFont();
-
           });
 
           /* Load  stars */
@@ -193,14 +198,11 @@
           }
 
           textGeo = new THREE.TextGeometry( text, {
-
             font: font,
-
             size: size,
             height: height,
             curveSegments: curveSegments,
             extrudeMaterial: 1
-
           });
 
           textGeo.computeBoundingBox();

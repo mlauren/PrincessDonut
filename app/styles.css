@@ -28,9 +28,10 @@ body {
 }
 .loading {
   font-size: 16px;
-  left: calc(50% - 200px);
+  left: calc(25%);
   top: 50%;
   position: fixed;
+  width: 50%;
 }
 .loading:after {
   overflow: hidden;
