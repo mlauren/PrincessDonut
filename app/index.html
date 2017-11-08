@@ -42,7 +42,7 @@
   <script src="scripts/trackBallControls.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script type="text/javascript">
-    var socket = io.connect('//localhost:8081/',{reconnect: true, secure: true});
+    var socket = io.connect(window.location.href,{reconnect: true, secure: true});
 
     $(document).on('ready', function() {
       (function() { 
