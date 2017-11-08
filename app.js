@@ -3,29 +3,19 @@ var express = require('express');
 var app = express();
 var Twit = require('twit');
 // Setup server
-var server = require('http').createServer(app);
-
+var server = require('http').Server(app);
 // IO
 var io = require('socket.io')(server);
 
-if (module === require.main) {
-  // [START server]
-  // Start the server
-  const server = app.listen(process.env.PORT || 8081, () => {
-    const port = server.address().port;
-    console.log(`App listening on port ${port}`);
-  });
-  // [END server]
-}
 
-app.use('/', express.static('app'));
 
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + 'app/index.html');
+// Routes
+app.use(express.static('./app'));
+
+app.get('/', (req, res) => {
+  res.status(200).sendFile('/index.html', { root: './app/' });
 });
-app.get('*', function(req, res){
-  res.status(404).sendFile(__dirname + '/app/index.html');
-});
+
 
 twit = new Twit({
   consumer_key:         '6U3ASBeodwSY8OgrNg4diORnJ',
@@ -96,6 +86,16 @@ stream.on('tweet', function(tweet) {
 });
 
 
+// Start server
+if (module === require.main) {
+  // [START server]
+  // Start the server
+  server.listen(process.env.PORT || 8081, () => {
+    const port = server.address().port;
+    console.log(`App listening on port ${port}`);
+  });
+  // [END server]
+}
 
 // expose app
-exports = module.exports = app;
+module.exports = app;
