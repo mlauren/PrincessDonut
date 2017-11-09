@@ -5,7 +5,7 @@ var Twit = require('twit');
 // Setup server
 var server = require('http').Server(app);
 // IO
-var io = require('socket.io')(server);
+const io = require('socket.io')(server);
 
 // Routes
 app.use(express.static('./app'));
