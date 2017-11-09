@@ -41,7 +41,10 @@
     "path": "^0.12.7",
     "serve-static": "^1.11.1",
     "twit": "^2.2.4",    
-    "socket.io": "^1.7.4"
+    "socket.io": "^1.7.4",
+    "bufferutil": "3.0.3",
+    "utf-8-validate": "3.0.4",
+    "ws": "3.3.1"
   },
   "devDependencies": {
     "@google-cloud/nodejs-repo-tools": "2.1.0",
