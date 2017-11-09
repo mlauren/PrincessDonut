@@ -43,9 +43,9 @@
   <script src="/socket.io/socket.io.js"></script>
   <script type="text/javascript">
     var connectionStr = window.location.href;
-    if (window.location.port == "") connectionStr = window.location.href + ':8080';
+    if (window.location.port == "") connectionStr = window.location.href + ':8081';
 
-    var socket = io.connect(connectionStr,{reconnect: true});
+    var socket = io.connect(connectionStr,{reconnect: true, secure: true});
 
     $(document).on('ready', function() {
       (function() { 
