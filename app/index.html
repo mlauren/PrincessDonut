@@ -45,7 +45,7 @@
     var connectionStr = window.location.href;
     if (window.location.port == "") connectionStr = window.location.href + ':3000';
 
-    var socket = io.connect(connectionStr,{reconnect: true, secure: true});
+    var socket = io.connect(connectionStr,{reconnect: true});
 
     $(document).on('ready', function() {
       (function() { 
