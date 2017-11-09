@@ -1,0 +1,6 @@
+{
+    "name": "Princess Simon",
+    "description": "Three.js, Twitter API, and Express server running on Node.",
+    "repository": "https://github.com/mlauren/PrincessSimon",
+    "keywords": ["node", "websocket", "socket.io"]
+  }
